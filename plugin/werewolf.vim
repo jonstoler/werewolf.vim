@@ -1,5 +1,5 @@
 " WEREWOLF
-"" version 1.0
+"" version 1.1
 "" changes your colorscheme depending on the time of day
 "" by Jonathan Stoler
 
@@ -36,9 +36,10 @@ function! Werewolf#transform(current, switch)
 		if cs ==# a:current[i]
 			execute "colorscheme " . a:switch[i]
 			" simple airline support - make airline transform, too
-			if(exists("airline#load_theme()"))
+			try
 				call airline#load_theme()
-			endif
+			catch
+			endtry
 
 			return
 		endif
