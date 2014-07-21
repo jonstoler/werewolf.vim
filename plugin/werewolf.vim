@@ -1,5 +1,5 @@
 " WEREWOLF
-"" version 1.1
+"" version 1.2
 "" changes your colorscheme depending on the time of day
 "" by Jonathan Stoler
 
