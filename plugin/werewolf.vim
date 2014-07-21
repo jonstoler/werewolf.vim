@@ -15,6 +15,8 @@ call <SID>CSet("g:werewolf_day_start", 8)
 call <SID>CSet("g:werewolf_day_end", 20)
 call <SID>CSet("g:werewolf_change_automatically", 1)
 
+let s:werewolf_autocmd_allowed = 0
+
 function! Werewolf()
 	if strftime("%H") >= g:werewolf_day_start && strftime("%H") < g:werewolf_day_end
 		call Werewolf#transform(g:werewolf_night_themes, g:werewolf_day_themes)
@@ -35,12 +37,12 @@ function! Werewolf#transform(current, switch)
 	while i < len(a:current)
 		if cs ==# a:current[i]
 			execute "colorscheme " . a:switch[i]
-			" simple airline support - make airline transform, too
-			try
-				call airline#load_theme()
-			catch
-			endtry
-
+			" if we don't do this check, Werewolf's own ColorScheme autocmd will
+			" run infinitely; this limits when it happens
+			if s:werewolf_autocmd_allowed
+				doau ColorScheme Werewolf
+				let s:werewolf_autocmd_allowed = 0
+			endif
 			return
 		endif
 		let i += 1
@@ -52,19 +54,21 @@ function! WerewolfToggle()
 endfunction
 
 function! Werewolf#colorschemeChanged()
+	let s:werewolf_autocmd_allowed = 0
 	call Werewolf#transform(g:werewolf_day_themes + g:werewolf_night_themes, g:werewolf_night_themes + g:werewolf_day_themes)
 endfunction
 
 function! Werewolf#autoChange()
 	if g:werewolf_change_automatically
+		let s:werewolf_autocmd_allowed = 1
 		call Werewolf()
 	endif
 endfunction
 
 augroup werewolf
 	autocmd!
-	autocmd ColorScheme * call Werewolf#colorschemeChanged()
-	autocmd CursorMoved,CursorHold,CursorHoldI,WinEnter,WinLeave,FocusLost,FocusGained,VimResized,ShellCmdPost * call Werewolf#autoChange()
+	autocmd ColorScheme * nested call Werewolf#colorschemeChanged()
+	autocmd CursorMoved,CursorHold,CursorHoldI,WinEnter,WinLeave,FocusLost,FocusGained,VimResized,ShellCmdPost * nested call Werewolf#autoChange()
 augroup END
 
 delf <SID>CSet
