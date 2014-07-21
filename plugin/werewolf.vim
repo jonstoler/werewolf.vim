@@ -1,19 +1,13 @@
 " WEREWOLF
-"" version 1.2
+"" version 1.2.1
 "" changes your colorscheme depending on the time of day
 "" by Jonathan Stoler
 
-function! <SID>CSet(name, default)
-	if(!exists(a:name))
-		execute "let " . a:name . " = " . a:default
-	endif
-endfunction
-
-call <SID>CSet("g:werewolf_day_themes", "[]")
-call <SID>CSet("g:werewolf_night_themes", "[]")
-call <SID>CSet("g:werewolf_day_start", 8)
-call <SID>CSet("g:werewolf_day_end", 20)
-call <SID>CSet("g:werewolf_change_automatically", 1)
+let g:werewolf_day_themes = get(g:, 'werewolf_day_themes', [])
+let g:werewolf_night_themes = get(g:, 'werewolf_night_themes', [])
+let g:werewolf_day_start = get(g:, 'werewolf_day_start', 8)
+let g:werewolf_day_end = get(g:, 'werewolf_day_end', 20)
+let g:werewolf_change_automatically = get(g:, 'werewolf_change_automatically', 1)
 
 let s:werewolf_autocmd_allowed = 0
 
@@ -26,16 +20,9 @@ function! Werewolf()
 endfunction
 
 function! Werewolf#transform(current, switch)
-	" get current colorscheme
-	let s:cs = ''
-	redir => cs
-		silent colorscheme
-	redir END
-	let cs = cs[1:]
-
 	let i = 0
 	while i < len(a:current)
-		if cs ==# a:current[i]
+		if g:colors_name ==# a:current[i]
 			execute "colorscheme " . a:switch[i]
 			" if we don't do this check, Werewolf's own ColorScheme autocmd will
 			" run infinitely; this limits when it happens
@@ -70,5 +57,3 @@ augroup werewolf
 	autocmd ColorScheme * nested call Werewolf#colorschemeChanged()
 	autocmd CursorMoved,CursorHold,CursorHoldI,WinEnter,WinLeave,FocusLost,FocusGained,VimResized,ShellCmdPost * nested call Werewolf#autoChange()
 augroup END
-
-delf <SID>CSet

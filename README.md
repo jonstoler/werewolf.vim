@@ -20,7 +20,7 @@ git clone https://github.com/jonstoler/werewolf.vim.git
 
 ## Vundle
 
-Add this line to .vimrc `Plugin 'jonstoler/werewolf.vim'`    
+Add this line to .vimrc: `Plugin 'jonstoler/werewolf.vim'`    
 Launch `vim` and run `:PluginInstall`    
 Or to install from the command line: `vim +PluginInstall +qall`
 
