@@ -24,6 +24,23 @@ Add this line to .vimrc: `Plugin 'jonstoler/werewolf.vim'`
 Launch `vim` and run `:PluginInstall`    
 Or to install from the command line: `vim +PluginInstall +qall`
 
+## vim-plug
+
+Add this line to .vimrc: `Plug 'jonstoler/werewolf.vim'`
+Launch `vim` and run `:PlugInstall`
+
+# Available Commands
+
+Command | Function
+------- | --------
+:WerewolfTransform | Checks the time of day and adjusts your colorscheme (meant to be used when automatic transformation is turned off)
+:WerewolfToggle | Switches to night if you're using the day theme, and vice versa
+:WerewolfAuto! | Toggle automatic transformation
+:WerewolfOn | Turn automatic transformation on
+:WerewolfOff | Turn automatic transformation off
+:WerewolfStart num | Set `g:werewolf_day_start` to `num`
+:WerewolfEnd num | Set `g:werewolf_day_end` to `num`
+
 # Settings
 
 ## Theme Matching
@@ -62,4 +79,4 @@ By default, Werewolf will automatically transform at the hours you specify. Howe
 let g:werewolf_change_automatically = 0
 ```
 
-You can then call `WerewolfToggle()` to switch between day and night themes at any time, or call `Werewolf()` to change to the proper theme based on your `day_start` and `day_end` settings.
+You can then use `:WerewolfToggle` to switch between day and night themes at any time, or call `:WerewolfTransform` to change to the proper theme based on your `day_start` and `day_end` settings.

@@ -52,6 +52,14 @@ function! Werewolf#autoChange()
 	endif
 endfunction
 
+command! WerewolfTransform call Werewolf()
+command! WerewolfToggle call WerewolfToggle()
+command! -bang WerewolfAuto let g:werewolf_change_automatically = <bang>g:werewolf_change_automatically
+command! WerewolfOn let g:werewolf_change_automatically = 0
+command! WerewolfOff let g:werewolf_change_automatically = 1
+command! -nargs=1 WerewolfStart let g:werewolf_day_start = <args>
+command! -nargs=1 WerewolfEnd let g:werewolf_day_end = <args>
+
 augroup werewolf
 	autocmd!
 	autocmd ColorScheme * nested call Werewolf#colorschemeChanged()
